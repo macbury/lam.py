@@ -1,0 +1,5 @@
+mqtt:
+  image: toke/mosquitto:release-1.4.10-2
+  ports:
+    - "1883:1883"
+    - "9001:9001"
