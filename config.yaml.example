@@ -1,0 +1,28 @@
+jenkins:
+  url: "http://"
+  password: ""
+  user: ""
+  jobs:
+    - job_name
+
+mqtt:
+  host: ''
+  username: ''
+  password: ''
+  port:
+
+topics:
+  jenkins_status: 'build'
+  button: 'button'
+  presence: 'presence'
+
+hipchat:
+  token: ''
+  team:
+    - email@gmail.com
+    - email22gmail.com
+  button_action:
+    recipient: email@gmail.com
+    messages:
+      - "."
+      - "Jeże"
