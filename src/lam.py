@@ -3,7 +3,7 @@ import os
 import time
 from hipchat import Hipchat
 from status import Status
-from mqtt import MqttClient, EmitStatus, ButtonHandler
+from mqtt import MqttClient, EmitPresence, EmitStatus
 
 from ruamel.yaml import YAML
 
@@ -21,14 +21,14 @@ jenkins_status = Status(CONFIG['jenkins'])
 hipchat = Hipchat(CONFIG['hipchat'])
 mqtt_client = MqttClient(CONFIG['mqtt'])
 
-emit_status = EmitStatus(mqtt_client, CONFIG['topics']['jenkins_status'])
-button_handler = ButtonHandler(mqtt_client, CONFIG['topics']['button'])
+emit_status = EmitStatus(mqtt_client, jenkins_status, CONFIG['topics']['jenkins_status'])
+emit_presence = EmitPresence(mqtt_client, hipchat, CONFIG['topics']['presence'])
+#button_handler = ButtonHandler(mqtt_client, CONFIG['topics']['button'])
 
 try:
   while True:
-    status = jenkins_status.get()
-    LOGGER.info("Current status: {}".format(status))
-    emit_status.run(status)
+    emit_status.loop()
+    emit_presence.loop()
     time.sleep(1)
 except KeyboardInterrupt:
   pass

@@ -41,7 +41,7 @@ class Status():
         projects[status].append(job['name'])
     return projects
 
-  def get(self):
+  def status(self):
     statuses = self.list_by_status()
     if 'running' in statuses:
       return 'running'

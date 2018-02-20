@@ -30,12 +30,33 @@ class MqttClient(object):
     LOGGER.info("Got message: {}".format(msg))
 
 class EmitStatus():
-  def __init__(self, client, topic):
+  def __init__(self, client, jenkins, topic):
     self.client = client
     self.topic = topic
+    self.jenkins = jenkins
 
-  def run(self, status):
-    self.client.publish(self.topic, status)
+  def loop(self):
+    self.client.publish(self.topic, self.jenkins.status())
+
+class EmitPresence():
+  def __init__(self, client, hipchat, topic):
+    self.client = client
+    self.topic = topic
+    self.hipchat = hipchat
+    self.accumulator = 0
+
+  def loop(self):
+    if self.accumulator <= 0:
+      self.client.publish(self.topic, self.status())
+      self.accumulator = 30
+    else:
+      self.accumulator -= 1
+
+  def status(self):
+    if self.hipchat.is_anybody_online():
+      return "online"
+    else:
+      return "false"
 
 class ButtonHandler():
   def __init__(self, client, topic):
