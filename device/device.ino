@@ -1,30 +1,47 @@
-#include <ArduinoHttpClient.h>
+#include <EEPROM.h>
+
+#include <Adafruit_NeoPixel.h>
+#include <ArduinoJson.h>
 #include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+#include <ESP8266mDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+
 #include "credentials.h"
 
-WiFiClient wifi;
-HttpClient client = HttpClient(wifi, ENDPOINT_HOST, 80);
+WiFiClient espClient;
+PubSubClient client(espClient);
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
 
-//https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/examples/WiFiClient/WiFiClient.ino
+#include "connection.h"
+#include "effects.h"
+#include "button.h"
+#include "state.h"
 
-int accumulator = 0;
-boolean actionButtonPressed() {
-  int actionButtonState = digitalRead(PIN_ACTION_BUTTON);
-
-  if (actionButtonState == HIGH) {
-    return false;
+void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
+  char rawMessage[length + 1];
+  for (int i = 0; i < length; i++) {
+    rawMessage[i] = (char)payload[i];
   }
+  rawMessage[length] = '\0';
 
-  digitalWrite(PIN_STATUS_LED, HIGH);
-  int accumulator = 0;
-  while(actionButtonState == LOW) {
-    delay(100);
-    accumulator += 1;
-    actionButtonState = digitalRead(PIN_ACTION_BUTTON);
+  String message = String(message);
+  String topic = String(topic);
+
+  if (topic == MQTT_TOPIC_PRESENCE) {
+    turnOnOff(message);
+  } else if (topic == MQTT_TOPIC_PRESENCE) {
+    turnOnOff(message);
+  } else if (topic == MQTT_TOPIC_BUILD) {
+    switchToState(message)
+  } else {
+    Serial.print("Message arrived [");
+    Serial.print(topic);
+    Serial.println("] ");
+    Serial.print("Message:");
+    Serial.println(message);
   }
-  digitalWrite(PIN_STATUS_LED, LOW);
-
-  return accumulator >= 5;
 }
 
 void setup() {
@@ -35,40 +52,27 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
-  Serial.println();
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(WIFI_NAME);
+  strip.begin();
+  strip.setBrightness(0);
+  strip.show();
 
-  WiFi.begin(WIFI_NAME, WIFI_PASSWORD);
-
-    while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  client.setServer(MQTT_HOST, MQTT_PORT);
+  client.setCallback(on_mqtt_message);
+  colorWipe(strip.Color(0, 0, 0), 50);
 }
 
 void loop() {
-  if (actionButtonPressed()) {
-    Serial.println("Pressed a button!");
-  }
-
-  Serial.println("Performing request");
-  client.beginRequest();
-  client.get("/");
-  client.sendBasicAuth(ENDPOINT_USER, ENDPOINT_PASSWORD);
-  client.endRequest();
-  Serial.println("Ending request");
-
-  Serial.println("available: ");
-  Serial.println(client.available());
-  while(client.available() > 0) {
-    Serial.println("Left: ");
-    Serial.println(client.available());
+  if (client.connected()) {
+    client.loop();
+    ArduinoOTA.handle();
+    if (actionButtonPressed()) {
+      Serial.println("Pressed a button!");
+      colorWipe(strip.Color(255, 0, 0), 50);
+      theaterChase(strip.Color(127, 127, 127), 50);
+    }
+  } else {
+    if (ensureMqttConnection()) {
+      onConnect();
+    }
   }
 }

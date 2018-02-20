@@ -1,28 +1,36 @@
 jenkins:
-  url: "http://"
+  topic: 'build'
+  url: ""
   password: ""
   user: ""
   jobs:
-    - job_name
+    - proj
+
+coffee:
+  endpoint: 'https://api.thingspeak.com/channels/125608/fields/1.json?sum=daily&timezone=Europe/Warsaw&days=1'
+  topic: 'coffee'
+
+lunching:
+  endpoint: 'https://api.lunching.pl/api/account/order-list'
+  topic: 'food'
+  username: ''
+  password: ''
 
 mqtt:
   host: ''
   username: ''
   password: ''
-  port:
+  port: 0
 
-topics:
-  jenkins_status: 'build'
-  button: 'button'
-  presence: 'presence'
+button:
+  topic: 'button'
+  recipient: 0
+  messages:
+    - "."
+    - ".."
 
 hipchat:
+  topic: 'presence'
   token: ''
   team:
-    - email@gmail.com
-    - email22gmail.com
-  button_action:
-    recipient: email@gmail.com
-    messages:
-      - "."
-      - "Jeże"
+    - emails@gmail.com

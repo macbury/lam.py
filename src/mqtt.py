@@ -8,6 +8,7 @@ class MqttClient(object):
   def __init__(self, config):
     self.config = config
     self.client = mqtt.Client()
+    self.subscriptions = {}
 
     self.client.on_connect = self.on_connect
     self.client.on_message = self.on_message
@@ -24,41 +25,21 @@ class MqttClient(object):
       qos=2
     )
 
+  def subscribe(self, topic, callback):
+    if not topic in self.subscriptions:
+      self.subscriptions[topic] = []
+    self.subscriptions[topic].append(callback)
+
   def on_connect(self, client, userdata, flags, rc):
     LOGGER.info("Connected: {}".format(rc))
+    for topic in self.subscriptions:
+      LOGGER.info("Subscribing: {}".format(topic))
+      client.subscribe(topic)
+
   def on_message(self, client, userdata, msg):
-    LOGGER.info("Got message: {}".format(msg))
-
-class EmitStatus():
-  def __init__(self, client, jenkins, topic):
-    self.client = client
-    self.topic = topic
-    self.jenkins = jenkins
-
-  def loop(self):
-    self.client.publish(self.topic, self.jenkins.status())
-
-class EmitPresence():
-  def __init__(self, client, hipchat, topic):
-    self.client = client
-    self.topic = topic
-    self.hipchat = hipchat
-    self.accumulator = 0
-
-  def loop(self):
-    if self.accumulator <= 0:
-      self.client.publish(self.topic, self.status())
-      self.accumulator = 30
+    if msg.topic in self.subscriptions:
+      LOGGER.info("Triggering callbacks for: {}".format(msg))
+      for callback in self.subscriptions[msg.topic]:
+        callback(msg.topic, str(msg.payload))
     else:
-      self.accumulator -= 1
-
-  def status(self):
-    if self.hipchat.is_anybody_online():
-      return "online"
-    else:
-      return "false"
-
-class ButtonHandler():
-  def __init__(self, client, topic):
-    self.client = client
-    self.topic = topic
+      LOGGER.info("Got message: {}".format(msg))

@@ -31,3 +31,6 @@ sudo systemctl start lam.py
 * https://customer.cloudmqtt.com/login
 
 https://github.com/RidersDiscountCom/HypChat/blob/master/TYPES.rst
+
+## TODO
+* something with arcade button led? maybe if online then fade in and fade out

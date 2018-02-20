@@ -6,10 +6,13 @@ class Hipchat(object):
     self.client = HypChat(config['token'])
     self.team = config['team']
 
+  def message(self, user, body):
+    self.client.get_user(user).message(body)
+
   def is_anybody_online(self):
     for member in self.team:
       presence = self.client.get_user(member)['presence']
-      #import code; code.interact(local=dict(globals(), **locals()))
+      
       if presence is not None and \
         presence['client']['type'] == 'http://hipchat.com/client/mac/macweb' and \
         presence['is_online']:
