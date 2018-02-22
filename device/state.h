@@ -5,9 +5,7 @@ int currentBrightness = 0;
 bool teamOnline;
 
 void setBrightness(byte brightness) {
-  currentBrightness = maxBrightness = brightness;
-  strip.setBrightness(currentBrightness);
-  strip.show();
+  maxBrightness = brightness;
 }
 
 void handleBrightness() {

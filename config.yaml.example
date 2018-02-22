@@ -30,6 +30,7 @@ button:
     - ".."
 
 hipchat:
+  mode: 'room'
   topic: 'presence'
   token: ''
   team:
