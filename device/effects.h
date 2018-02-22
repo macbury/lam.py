@@ -15,19 +15,3 @@ void clearColor() {
 byte lerp(float progress, float fromValue, float toValue){
   return (int)(fromValue + (toValue - fromValue) * progress);
 }
-
-void handleLight() {
-  if (currentEffect == NULL) {
-    clearColor();
-    return;
-  }
-
-  strip.setBrightness(100); // LOAD from somwhere
-  currentEffect->update();
-
-  for(byte i=0; i<strip.numPixels(); i++) {
-    RGB color = currentEffect->get(i);
-    strip.setPixelColor(i, strip.Color(color.r, color.g, color.b));
-  }
-  strip.show();
-}
