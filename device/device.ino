@@ -9,6 +9,7 @@
 #include <ArduinoOTA.h>
 
 #include "credentials.h"
+#include "effect/effect.h"
 
 const byte TICK_DELAY = 33;
 WiFiClient espClient;
@@ -47,7 +48,7 @@ void on_mqtt_message(char* rawTopic, byte* payload, unsigned int length) {
 
 void setup() {
   Serial.begin(115200);
-  delay(100);
+  delay(10);
 
   pinMode(PIN_STATUS_LED, OUTPUT);
   pinMode(PIN_ACTION_BUTTON, INPUT);
