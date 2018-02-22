@@ -9,15 +9,14 @@
 #include <ArduinoOTA.h>
 
 #include "credentials.h"
-#include "effect/effect.h"
 
 const byte TICK_DELAY = 33;
 WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
 
-#include "connection.h"
 #include "effects.h"
+#include "connection.h"
 #include "button.h"
 #include "state.h"
 
@@ -67,10 +66,13 @@ void loop() {
     client.loop();
     ArduinoOTA.handle();
     handleButton();
+    handleLight();
   } else {
+    clearColor();
     if (ensureMqttConnection()) {
       onConnect();
     }
   }
+
   delay(TICK_DELAY);
 }

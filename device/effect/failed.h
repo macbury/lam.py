@@ -1,12 +1,12 @@
-#ifndef SuccessEffect_H
-#define SuccessEffect_H
+#ifndef FailedEffect_H
+#define FailedEffect_H
 #include "Effect.h"
 
-class SuccessEffect : public Effect {
+class FailedEffect : public Effect {
   public:
     virtual void update() {
       for (byte i = 0; i < size(); i++) {
-        matrix[i] = { 30, 161, 255 };
+        matrix[i] = { 255, 60, 30 };
       }
     }
 };

@@ -18,7 +18,7 @@ class Effect {
     }
 
     virtual void update() {
-      
+
     }
 
     void clear() {
@@ -32,7 +32,7 @@ class Effect {
     }
 
     int size() {
-      return PIXEL_COUNT();
+      return PIXEL_COUNT;
     }
   protected:
     RGB matrix[PIXEL_COUNT];
