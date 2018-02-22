@@ -1,9 +1,34 @@
-void handleBrightness() {
-  strip.setBrightness(100); // LOAD from somwhere
+Effect * currentEffect;
+String currentState = "";
+int maxBrightness = LIGHT_BRIGHTNESS;
+int currentBrightness = 0;
+bool teamOnline;
+
+void setBrightness(byte brightness) {
+  currentBrightness = maxBrightness = brightness;
+  strip.setBrightness(currentBrightness);
   strip.show();
 }
 
-String currentState = "";
+void handleBrightness() {
+  if (teamOnline) {
+    currentBrightness += 1;
+  } else {
+    currentBrightness -= 1;
+  }
+
+  if (currentBrightness < 0) {
+    currentBrightness = 0;
+  }
+
+  if (currentBrightness > maxBrightness) {
+    currentBrightness = maxBrightness;
+  }
+
+  strip.setBrightness(currentBrightness);
+  strip.show();
+}
+
 void switchToState(char * rawState) {
   String nextState = String(rawState);
 
@@ -37,10 +62,7 @@ void switchToState(char * rawState) {
 
   handleBrightness();
   float step = (TICK_DELAY/TRANSITION_TIME);
-  Serial.print("Step: ");
-  Serial.println(step);
   for (float alpha = 0; alpha < 1.0; alpha+=step) {
-    Serial.println(alpha);
     currentEffect->update();
     nextEffect->update();
 
@@ -67,8 +89,10 @@ void switchToState(char * rawState) {
 
 void turnOnOff(char * action) {
   if (String(action) == "online") {
+    teamOnline = true;
     Serial.println("Turn on lamp");
   } else {
+    teamOnline = false;
     Serial.println("Turn off lamp");
   }
 }

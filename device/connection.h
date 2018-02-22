@@ -96,4 +96,11 @@ void onConnect() {
   client.subscribe(MQTT_TOPIC_BUILD);
   Serial.println(MQTT_TOPIC_PRESENCE);
   client.subscribe(MQTT_TOPIC_PRESENCE);
+
+  Serial.println(MQTT_TOPIC_BRIGHTNESS);
+  client.subscribe(MQTT_TOPIC_BRIGHTNESS);
+  Serial.println(MQTT_TOPIC_COFFEE);
+  client.subscribe(MQTT_TOPIC_COFFEE);
+  Serial.println(MQTT_TOPIC_FOOD);
+  client.subscribe(MQTT_TOPIC_FOOD);
 }

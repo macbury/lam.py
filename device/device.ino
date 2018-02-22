@@ -30,18 +30,20 @@ void on_mqtt_message(char* rawTopic, byte* payload, unsigned int length) {
   String message = String(rawMessage);
   String topic = String(rawTopic);
 
+  Serial.print("Topic: ");
+  Serial.println(topic);
+  Serial.println("Message: ");
+  Serial.println(message);
   if (topic == MQTT_TOPIC_PRESENCE) {
+    Serial.println("Topic presence");
     turnOnOff(rawMessage);
-  } else if (topic == MQTT_TOPIC_PRESENCE) {
-    turnOnOff(rawMessage);
+  } else if (topic == MQTT_TOPIC_BRIGHTNESS) {
+    Serial.println("Changing brightness");
+    setBrightness(message.toInt());
   } else if (topic == MQTT_TOPIC_BUILD) {
     switchToState(rawMessage);
   } else {
-    Serial.print("Message arrived [");
-    Serial.print(topic);
-    Serial.println("] ");
-    Serial.print("Message:");
-    Serial.println(message);
+    Serial.println("Unhandled!");
   }
 }
 
