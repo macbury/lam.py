@@ -10,6 +10,7 @@
 
 #include "credentials.h"
 
+const byte TICK_DELAY = 33;
 WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
@@ -19,22 +20,22 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB 
 #include "button.h"
 #include "state.h"
 
-void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
+void on_mqtt_message(char* rawTopic, byte* payload, unsigned int length) {
   char rawMessage[length + 1];
   for (int i = 0; i < length; i++) {
     rawMessage[i] = (char)payload[i];
   }
   rawMessage[length] = '\0';
 
-  String message = String(message);
-  String topic = String(topic);
+  String message = String(rawMessage);
+  String topic = String(rawTopic);
 
   if (topic == MQTT_TOPIC_PRESENCE) {
-    turnOnOff(message);
+    turnOnOff(rawMessage);
   } else if (topic == MQTT_TOPIC_PRESENCE) {
-    turnOnOff(message);
+    turnOnOff(rawMessage);
   } else if (topic == MQTT_TOPIC_BUILD) {
-    switchToState(message)
+    switchToState(rawMessage);
   } else {
     Serial.print("Message arrived [");
     Serial.print(topic);
@@ -45,34 +46,30 @@ void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
 }
 
 void setup() {
+  Serial.begin(115200);
+  delay(100);
+
   pinMode(PIN_STATUS_LED, OUTPUT);
   pinMode(PIN_ACTION_BUTTON, INPUT);
-  digitalWrite(PIN_STATUS_LED, LOW);
-
-  Serial.begin(115200);
-  delay(10);
-
-  strip.begin();
-  strip.setBrightness(0);
-  strip.show();
+  analogWrite(PIN_STATUS_LED, 255);
 
   client.setServer(MQTT_HOST, MQTT_PORT);
   client.setCallback(on_mqtt_message);
-  colorWipe(strip.Color(0, 0, 0), 50);
+
+  strip.begin();
+  delay(100);
+  clearColor();
 }
 
 void loop() {
   if (client.connected()) {
     client.loop();
     ArduinoOTA.handle();
-    if (actionButtonPressed()) {
-      Serial.println("Pressed a button!");
-      colorWipe(strip.Color(255, 0, 0), 50);
-      theaterChase(strip.Color(127, 127, 127), 50);
-    }
+    handleButton();
   } else {
     if (ensureMqttConnection()) {
       onConnect();
     }
   }
+  delay(TICK_DELAY);
 }

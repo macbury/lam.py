@@ -1,5 +1,5 @@
-String * currentState = "loading";
-void switchToState(String * state) {
+char * currentState = "loading";
+void switchToState(char * state) {
   if (state == "success") {
     Serial.println("Color to success");
   } else if (state == "running") {
@@ -9,8 +9,8 @@ void switchToState(String * state) {
   }
 }
 
-void turnOnOff(String * action) {
-  if (action == "online") {
+void turnOnOff(char * action) {
+  if (String(action) == "online") {
     Serial.println("Turn on lamp");
   } else {
     Serial.println("Turn off lamp");

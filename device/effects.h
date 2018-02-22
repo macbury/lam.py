@@ -8,6 +8,14 @@ void colorWipe(uint32_t c, uint8_t wait) {
   }
 }
 
+void clearColor() {
+  strip.setBrightness(0);
+  for(uint16_t i=0; i<strip.numPixels(); i++) {
+    strip.setPixelColor(i, 0);
+  }
+  strip.show();
+}
+
 //Theatre-style crawling lights.
 void theaterChase(uint32_t c, uint8_t wait) {
   strip.setBrightness(defaultBrightness);

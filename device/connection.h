@@ -39,11 +39,14 @@ void setupWifi() {
   Serial.println(WIFI_NAME);
   WiFi.mode(WIFI_STA);
 
+  bool ledTick = false;
   while (WiFi.waitForConnectResult() != WL_CONNECTED){
     Serial.print(".");
     WiFi.begin(WIFI_NAME, WIFI_PASSWORD);
 
-    delay(500);
+    delay(100);
+    ledTick = !ledTick;
+    analogWrite(PIN_STATUS_LED, ledTick ? 1023 : 0);
   }
   Serial.println("OK!");
   randomSeed(micros());
@@ -61,8 +64,11 @@ void ensureWifiConnection() {
 
 bool ensureMqttConnection() {
   ensureWifiConnection();
+  bool ledTick = false;
   while (!client.connected()) {
-    delay(1000);
+    ledTick = !ledTick;
+    analogWrite(PIN_STATUS_LED, ledTick ? 1023 : 0);
+    delay(500);
     Serial.println("Attempting MQTT connection...");
     // Create a random client ID
     String clientId = "lam.py-";
