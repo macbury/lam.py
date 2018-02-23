@@ -15,7 +15,10 @@ class Effect {
   public:
     Effect() {
       clear();
+      init();
     }
+
+    virtual void init() {}
 
     virtual void update() {
 
