@@ -1,5 +1,5 @@
 Effect * currentEffect;
-String currentState = "";
+char * currentState = "";
 int maxBrightness = LIGHT_BRIGHTNESS;
 int currentBrightness = 0;
 bool teamOnline;
@@ -27,10 +27,12 @@ void handleBrightness() {
   strip.show();
 }
 
-void switchToState(char * rawState) {
-  String nextState = String(rawState);
+char * STATE_SUCCESS = "success";
+char * STATE_RUNNING = "running";
+char * STATE_FAILED = "failed";
 
-  if (nextState.equals(currentState)) {
+void switchToState(char * nextState) {
+  if (strcmp(currentState, nextState) == 0) {
     Serial.print("Still the same state: ");
     Serial.print(currentState);
     Serial.print(" ");
@@ -38,29 +40,31 @@ void switchToState(char * rawState) {
     return;
   }
 
-  currentState = rawState;
+  Effect * nextEffect = NULL;
 
-  Effect * nextEffect;
-
-  if (nextState == "success") {
+  if (strcmp(nextState, STATE_SUCCESS) == 0) {
     nextEffect = new SuccessEffect();
-  } else if (nextState == "running") {
+    currentState = STATE_SUCCESS;
+  } else if (strcmp(nextState, STATE_RUNNING) == 0) {
     nextEffect = new RunningEffect();
-  } else if (nextState == "failed") {
+    currentState = STATE_RUNNING;
+  } else if (strcmp(nextState, STATE_FAILED) == 0) {
     nextEffect = new FailedEffect();
+    currentState = STATE_FAILED;
   } else {
     Serial.print("Undefined nextState: ");
     Serial.println(nextState);
+    return;
   }
 
-  if (currentEffect == NULL || nextEffect == NULL) {
+  if (currentEffect == NULL) {
     currentEffect = nextEffect;
     return;
   }
 
   handleBrightness();
   float step = (TICK_DELAY/TRANSITION_TIME);
-  for (float alpha = 0; alpha < 1.0; alpha+=step) {
+  for (float alpha = 0; alpha <= 1.0; alpha+=step) {
     currentEffect->update();
     nextEffect->update();
 
@@ -81,12 +85,14 @@ void switchToState(char * rawState) {
     strip.show();
     delay(TICK_DELAY);
   }
+
   delete currentEffect;
   currentEffect = nextEffect;
 }
 
+const char * ONLINE_KEY = "online";
 void turnOnOff(char * action) {
-  if (String(action) == "online") {
+  if (strcmp(action, ONLINE_KEY) == 0) {
     teamOnline = true;
     Serial.println("Turn on lamp");
   } else {

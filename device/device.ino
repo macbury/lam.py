@@ -10,7 +10,7 @@
 
 #include "credentials.h"
 
-const byte TICK_DELAY = 33;
+const byte TICK_DELAY = 10;
 WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
@@ -20,28 +20,25 @@ Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB 
 #include "button.h"
 #include "state.h"
 
-void on_mqtt_message(char* rawTopic, byte* payload, unsigned int length) {
-  char rawMessage[length + 1];
+void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
+  char message[length + 1];
   for (int i = 0; i < length; i++) {
-    rawMessage[i] = (char)payload[i];
+    message[i] = (char)payload[i];
   }
-  rawMessage[length] = '\0';
-
-  String message = String(rawMessage);
-  String topic = String(rawTopic);
+  message[length] = '\0';
 
   Serial.print("Topic: ");
   Serial.println(topic);
   Serial.println("Message: ");
   Serial.println(message);
-  if (topic == MQTT_TOPIC_PRESENCE) {
+  if (strcmp(topic, MQTT_TOPIC_PRESENCE) == 0) {
     Serial.println("Topic presence");
-    turnOnOff(rawMessage);
-  } else if (topic == MQTT_TOPIC_BRIGHTNESS) {
+    turnOnOff(message);
+  } else if (strcmp(topic, MQTT_TOPIC_BRIGHTNESS) == 0) {
     Serial.println("Changing brightness");
-    setBrightness(message.toInt());
-  } else if (topic == MQTT_TOPIC_BUILD) {
-    switchToState(rawMessage);
+    setBrightness(String(message).toInt());
+  } else if (strcmp(topic, MQTT_TOPIC_BUILD) == 0) {
+    switchToState(message);
   } else {
     Serial.println("Unhandled!");
   }
@@ -51,6 +48,7 @@ void setup() {
   Serial.begin(115200);
   delay(10);
 
+  randomSeed(100);
   pinMode(PIN_STATUS_LED, OUTPUT);
   pinMode(PIN_ACTION_BUTTON, INPUT);
   analogWrite(PIN_STATUS_LED, 255);
@@ -70,7 +68,6 @@ void loop() {
     handleButton();
     handleLight();
   } else {
-    clearColor();
     if (ensureMqttConnection()) {
       onConnect();
     }
