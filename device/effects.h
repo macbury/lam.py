@@ -28,10 +28,13 @@ void runEffect(Effect * toRunEffect, Effect * fromEffect, int duration) {
   transitToEffect(toRunEffect, fromEffect, 1000);
 }
 
-void coffeeEffect() {
-  if (!teamOnline) {
+int currentCoffeeNumber = 0;
+void coffeeEffect(int nextNoOfCoffee) {
+  if (!teamOnline || nextNoOfCoffee == currentCoffeeNumber) {
     return;
   }
+
+  currentCoffeeNumber = nextNoOfCoffee;
   CoffeeEffect * coffeeEffect = new CoffeeEffect();
   runEffect(coffeeEffect, currentEffect, 1000);
   delete coffeeEffect;

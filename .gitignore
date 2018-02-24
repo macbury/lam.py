@@ -102,3 +102,4 @@ ENV/
 
 credentials.h
 config.yaml
+.DS_Store

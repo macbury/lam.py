@@ -39,7 +39,7 @@ void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
   if (strcmp(topic, MQTT_TOPIC_FOOD) == 0) {
     foodAlertEffect();
   } else if (strcmp(topic, MQTT_TOPIC_COFFEE) == 0) {
-    coffeeEffect();
+    coffeeEffect(String(message).toInt());
   } else if (strcmp(topic, MQTT_TOPIC_PRESENCE) == 0) {
     Serial.println("Topic presence");
     turnOnOff(message);
