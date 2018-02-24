@@ -1,5 +1,6 @@
 # JenkinsLamp
-Simple lamp app
+
+Led lamp that displays information about current jenkins build status.
 
 ## Configuring device
 
@@ -33,8 +34,3 @@ sudo systemctl start lam.py
 
 * https://github.com/mqtt/mqtt.github.io/wiki/public_brokers
 * https://customer.cloudmqtt.com/login
-
-https://github.com/RidersDiscountCom/HypChat/blob/master/TYPES.rst
-
-## TODO
-* something with arcade button led? maybe if online then fade in and fade out
