@@ -24,33 +24,30 @@ Led lamp that displays information about current jenkins build status. Main feat
 
 * (IKEA Jar EKLATANT)[http://www.ikea.com/pl/pl/catalog/products/10376601/]
 * Arcade button(everything is better with arcade button)
-* Wemos D1 mini
+* Automatically D1 mini
 * NeoPixel 5V LED RGB WS2812B strip
 * Wires(of curse,)
 * Toilet paper inner tube
 * 4 amp power source
 * Frozen glass spray
+* Server with linux to run python script and mqtt server
 
 ## Preparing device
 
 ### Make hole in the lid of the jar and put arcade button
+Additionaly add small hole for power coord.
 ![](doc/step1.jpg)
-### Apply frozen glass effect to glass jar(3 coatings min.)
+![](doc/step1p.jpg)
+### Apply frozen glass effect to glass jar
+I needed to apply 3 coatings before it look cool.
 ![](doc/step2.jpg)
 ### Wrap the tube using led strip and connect elements
+Mount tube using tape, and put everything inside.
 ![](doc/step3.jpg)
 
 ### Upload code to Wemos D1 mini
 
 Open `device/device.ino` in arduino ide. Copy `credentials.h.example` to `credentials.h`. Update it with your credentials and upload to Wemos D1.
-
-## Running
-
-Run python script
-
-```
-python3 src/lam.py
-```
 
 ## Configuration of server
 
@@ -60,7 +57,13 @@ After cloning run:
 pip3 install -r requirements.txt
 ```
 
-Edit home configuration under `config.yaml` and after that run:
+Edit home configuration under `config.yaml` and run it:
+
+```
+python3 src/lam.py
+```
+
+## Example systemd service file
 
 ```
 sudo cp systemd/lam.py.service /lib/systemd/system/
