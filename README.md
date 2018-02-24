@@ -34,11 +34,11 @@ Led lamp that displays information about current jenkins build status. Main feat
 ## Preparing device
 
 ### Make hole in the lid of the jar and put arcade button
-![](doc/step1.png)
+![](doc/step1.jpg)
 ### Apply frozen glass effect to glass jar(3 coatings min.)
-![](doc/step2.png)
+![](doc/step2.jpg)
 ### Wrap the tube using led strip and connect elements
-![](doc/step3.png)
+![](doc/step3.jpg)
 
 ### Upload code to Wemos D1 mini
 
