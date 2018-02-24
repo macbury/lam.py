@@ -1,6 +1,12 @@
 # JenkinsLamp
 
-Led lamp that displays information about current jenkins build status:
+Led lamp that displays information about current jenkins build status. Main features:
+
+* Automaticaly turn on/off if user is logged on hipchat
+* Beam effect if somebody makes coffee
+* Unicorn effect if food is delivered(via. lunching.pl)
+* Big red arcade button that can send random message to somebody on hipchat
+* Change color depending on jenkins build status
 
 ## Failing builds
 ![](doc/failing.gif)
@@ -14,7 +20,27 @@ Led lamp that displays information about current jenkins build status:
 ## Wiring
 ![](doc/sketch.png)
 
-## Configuring device
+## Requirements
+
+* (IKEA Jar EKLATANT)[http://www.ikea.com/pl/pl/catalog/products/10376601/]
+* Arcade button(everything is better with arcade button)
+* Wemos D1 mini
+* NeoPixel 5V LED RGB WS2812B strip
+* Wires(of curse,)
+* Toilet paper inner tube
+* 4 amp power source
+* Frozen glass spray
+
+## Preparing device
+
+### Make hole in the lid of the jar and put arcade button
+![](doc/step1.png)
+### Apply frozen glass effect to glass jar(3 coatings min.)
+![](doc/step2.png)
+### Wrap the tube using led strip and connect elements
+![](doc/step3.png)
+
+### Upload code to Wemos D1 mini
 
 Open `device/device.ino` in arduino ide. Copy `credentials.h.example` to `credentials.h`. Update it with your credentials and upload to Wemos D1.
 
