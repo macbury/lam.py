@@ -11,6 +11,11 @@
 #include "credentials.h"
 
 const byte TICK_DELAY = 10;
+char * currentState = "";
+int maxBrightness = LIGHT_BRIGHTNESS;
+int currentBrightness = 0;
+bool teamOnline;
+
 WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
@@ -31,7 +36,11 @@ void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
   Serial.println(topic);
   Serial.println("Message: ");
   Serial.println(message);
-  if (strcmp(topic, MQTT_TOPIC_PRESENCE) == 0) {
+  if (strcmp(topic, MQTT_TOPIC_FOOD) == 0) {
+    foodAlertEffect();
+  } else if (strcmp(topic, MQTT_TOPIC_COFFEE) == 0) {
+    coffeeEffect();
+  } else if (strcmp(topic, MQTT_TOPIC_PRESENCE) == 0) {
     Serial.println("Topic presence");
     turnOnOff(message);
   } else if (strcmp(topic, MQTT_TOPIC_BRIGHTNESS) == 0) {

@@ -1,9 +1,3 @@
-Effect * currentEffect;
-char * currentState = "";
-int maxBrightness = LIGHT_BRIGHTNESS;
-int currentBrightness = 0;
-bool teamOnline;
-
 void setBrightness(byte brightness) {
   maxBrightness = brightness;
 }

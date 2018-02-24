@@ -1,6 +1,10 @@
 # JenkinsLamp
 Simple lamp app
 
+## Configuring device
+
+Open `device/device.ino` in arduino ide. Copy `credentials.h.example` to `credentials.h`. Update it with your credentials and upload to Wemos D1.
+
 ## Running
 
 Run python script
@@ -9,7 +13,7 @@ Run python script
 python3 src/lam.py
 ```
 
-## Configuration
+## Configuration of server
 
 After cloning run:
 
@@ -17,7 +21,7 @@ After cloning run:
 pip3 install -r requirements.txt
 ```
 
-Edit home configuration under `$USER/.config/jenkins_lamp.yaml` and after that run:
+Edit home configuration under `config.yaml` and after that run:
 
 ```
 sudo cp systemd/lam.py.service /lib/systemd/system/
