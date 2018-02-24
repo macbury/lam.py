@@ -63,29 +63,7 @@ void switchToState(char * nextState) {
   }
 
   handleBrightness();
-  float step = (TICK_DELAY/TRANSITION_TIME);
-  for (float alpha = 0; alpha <= 1.0; alpha+=step) {
-    currentEffect->update();
-    nextEffect->update();
-
-    for(byte i=0; i<strip.numPixels(); i++) {
-      RGB currentColor = currentEffect->get(i);
-      RGB nextColor = nextEffect->get(i);
-
-      strip.setPixelColor(
-        i,
-        strip.Color(
-          lerp(alpha, currentColor.r, nextColor.r),
-          lerp(alpha, currentColor.g, nextColor.g),
-          lerp(alpha, currentColor.b, nextColor.b)
-        )
-      );
-    }
-
-    strip.show();
-    delay(TICK_DELAY);
-  }
-
+  transitToEffect(currentEffect, nextEffect, TRANSITION_TIME);
   delete currentEffect;
   currentEffect = nextEffect;
 }
@@ -108,6 +86,11 @@ void handleLight() {
   }
 
   handleBrightness();
+
+  if (currentBrightness == 0.0) {
+    return;
+  }
+
   currentEffect->update();
 
   for(byte i=0; i<strip.numPixels(); i++) {
