@@ -22,7 +22,7 @@ Led lamp that displays information about current jenkins build status. Main feat
 
 ## Requirements
 
-* (IKEA Jar EKLATANT)[http://www.ikea.com/pl/pl/catalog/products/10376601/]
+* [IKEA Jar EKLATANT](http://www.ikea.com/pl/pl/catalog/products/10376601/)
 * Arcade button(everything is better with arcade button)
 * Automatically D1 mini
 * NeoPixel 5V LED RGB WS2812B strip
