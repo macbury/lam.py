@@ -3,13 +3,13 @@
 Led lamp that displays information about current jenkins build status:
 
 ## Failing builds
-![](images/failing.gif)
+![](doc/failing.gif)
 
 ## Running builds
-![](images/running.gif)
+![](doc/running.gif)
 
 ## Success builds
-![](images/success.gif)
+![](doc/success.gif)
 
 ## Wiring
 ![](doc/sketch.png)
