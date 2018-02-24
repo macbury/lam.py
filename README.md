@@ -2,6 +2,9 @@
 
 Led lamp that displays information about current jenkins build status.
 
+## Wiring
+![](doc/sketch.png)
+
 ## Configuring device
 
 Open `device/device.ino` in arduino ide. Copy `credentials.h.example` to `credentials.h`. Update it with your credentials and upload to Wemos D1.
