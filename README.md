@@ -1,6 +1,15 @@
 # JenkinsLamp
 
-Led lamp that displays information about current jenkins build status.
+Led lamp that displays information about current jenkins build status:
+
+## Failing builds
+![](images/failing.gif)
+
+## Running builds
+![](images/running.gif)
+
+## Success builds
+![](images/success.gif)
 
 ## Wiring
 ![](doc/sketch.png)
