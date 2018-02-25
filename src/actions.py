@@ -52,13 +52,13 @@ class EmitStatus():
     self.topic = topic
     self.jenkins = jenkins
     self.accumulator = 0
+    self.prev_status = None
 
   def loop(self):
-    if self.accumulator >= 3:
-      self.client.publish(self.topic, self.jenkins.status())
-      self.accumulator = 0
-    else:
-      self.accumulator += 1
+    current_status = self.jenkins.status()
+    if current_status != self.prev_status:
+      self.prev_status = current_status
+      self.client.publish(self.topic, current_status)
 
 class EmitPresence():
   def __init__(self, client, hipchat, topic):

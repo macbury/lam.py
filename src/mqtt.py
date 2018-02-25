@@ -22,7 +22,8 @@ class MqttClient(object):
     self.client.publish(
       topic=topic,
       payload=message,
-      qos=2
+      qos=2,
+      retain=True
     )
 
   def subscribe(self, topic, callback):
