@@ -38,13 +38,15 @@ class EmitFood():
 
   def emit(self):
     orders = requests.get(self.config['endpoint'], auth=(self.config['username'], self.config['password'])).json()
+    next_orders = len(orders) > 0
 
-    if len(orders) > 0:
-      self.have_orders = True
-      self.mqtt.publish(self.config['topic'], 'waiting')
-    elif self.have_orders:
-      self.mqtt.publish(self.config['topic'], 'delivered')
-      self.have_orders = False
+    if next_orders != self.have_orders:
+      self.have_orders = next_orders
+
+      if self.have_orders:
+        self.mqtt.publish(self.config['topic'], 'waiting')
+      else:
+        self.mqtt.publish(self.config['topic'], 'delivered')
 
 class EmitStatus():
   def __init__(self, client, jenkins, topic):
