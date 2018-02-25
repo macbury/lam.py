@@ -25,12 +25,12 @@ On separate server(in my case Raspberry Pi under my couch), there is running pyt
 ## Requirements
 
 * [IKEA Jar EKLATANT](http://www.ikea.com/pl/pl/catalog/products/10376601/)
-* Arcade button(everything is better with arcade button)
-* Automatically D1 mini
-* NeoPixel 5V LED RGB WS2812B strip
-* Wires(of curse,)
+* [Arcade button(everything is better with arcade button)](https://www.aliexpress.com/item/6pcs-lot-illuminated-Arcade-Push-Button-5V-LED-Arcade-Button-With-Microswitch-To-Arcade-Machine-Game/32807322244.html)
+* [WeMos D1 Mini v2](https://www.aliexpress.com/item/D1-mini-V2-Mini-NodeMcu-4M-bytes-Lua-WIFI-Internet-of-Things-development-board-based-ESP8266/32681374223.html)
+* [NeoPixel 5V LED RGB WS2812B strip](https://www.aliexpress.com/item/1M-5M-WS2812B-led-strip-30-60-74-90-96-144leds-DC5V-dearm-color-pixel-strip/32688092455.html)
+* Wires(of curse)
 * Toilet paper inner tube
-* 4 amp power source
+* 5V/4A power source DC 5,5 / 2,5mm
 * Frozen glass spray
 * Server with LINUX to run python script and MQTT server
 
