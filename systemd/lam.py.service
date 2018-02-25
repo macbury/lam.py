@@ -8,7 +8,10 @@ ExecStart=python3 -u src/lam.py
 WorkingDirectory=/home/pi/lam.py
 StandardOutput=inherit
 StandardError=inherit
+StartLimitBurst=1000
+StartLimitIntervalSec=1000
 Restart=always
+RestartSec=90
 User=pi
 
 [Install]

@@ -13,6 +13,7 @@ void setupOTA() {
 
   ArduinoOTA.onStart([]() {
     Serial.println("Starting");
+    clearColor();
   });
   ArduinoOTA.onEnd([]() {
     Serial.println("\nEnd");

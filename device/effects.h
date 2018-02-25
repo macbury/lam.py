@@ -1,7 +1,8 @@
 #include "effect/effect.h"
-Effect * currentEffect;
+Effect * currentEffect = NULL;
 #include "effect/clear.h"
 #include "effect/helper.h"
+#include "effect/button.h"
 #include "effect/failed.h"
 #include "effect/success.h"
 #include "effect/running.h"
@@ -16,7 +17,6 @@ void runEffect(Effect * toRunEffect, Effect * fromEffect, int duration) {
 
     for(byte i=0; i<strip.numPixels(); i++) {
       RGB currentColor = toRunEffect->get(i);
-
       strip.setPixelColor(i, strip.Color(currentColor.r, currentColor.g, currentColor.b));
     }
 

@@ -20,9 +20,10 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
 
+
 #include "effects.h"
-#include "connection.h"
 #include "button.h"
+#include "connection.h"
 #include "state.h"
 
 void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
@@ -67,6 +68,7 @@ void setup() {
 
   strip.begin();
   delay(100);
+  currentEffect = new ClearEffect();
   clearColor();
 }
 
@@ -74,6 +76,7 @@ void loop() {
   if (client.connected()) {
     client.loop();
     ArduinoOTA.handle();
+    updateButtonLed();
     handleButton();
     handleLight();
   } else {
