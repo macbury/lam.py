@@ -2,11 +2,11 @@
 
 Led lamp that displays information about current jenkins build status. Main features:
 
-* Automaticaly turn on/off if user is logged on hipchat
-* Beam effect if somebody makes coffee
-* Unicorn effect if food is delivered(via. lunching.pl)
-* Big red arcade button that can send random message to somebody on hipchat
-* Change color depending on jenkins build status
+* Automaticaly turn on/off if user is logged on Jipchat
+* Beam effect if somebody makes coffee([How i know that](http://codesthq.com/blog/2016/how-did-we-hack-coffeemaker-and-had-fun-with-it.html))
+* Unicorn effect if food is delivered(via. [lunching.pl](http://lunching.pl))
+* Big red arcade button that can send random message to somebody on Hipchat
+* Change color depending on [Jenkins](https://jenkins.io/) build status
 
 ## How it works:
 https://www.youtube.com/watch?v=UrOeL2-fV0c
