@@ -1,4 +1,4 @@
-# JenkinsLamp
+# lam.py
 
 Led lamp that displays information about current jenkins build status. Main features:
 
