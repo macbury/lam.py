@@ -9,7 +9,7 @@ typedef struct {
   float alpha;
 } Sparkle;
 
-const byte numOfSparkles = 8;
+const byte numOfSparkles = 16;
 const RGB successColor = { 30, 161, 255 };
 
 class SuccessEffect : public Effect {
@@ -37,7 +37,7 @@ class SuccessEffect : public Effect {
     Sparkle sparkles[numOfSparkles];
 
     float randomStep() {
-      return (float)random(1, 8)/1000.0f;
+      return (float)random(1, 16)/1000.0f;
     }
 
     void updateSparkles() {
