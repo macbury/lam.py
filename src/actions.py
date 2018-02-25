@@ -6,7 +6,7 @@ class EmitCoffee():
     self.config = config
     self.accumulator = 0
     self.mqtt = mqtt
-    self.coffee_count = False
+    self.coffee_count = 0
 
   def loop(self):
     if self.accumulator <= 0:
@@ -17,10 +17,10 @@ class EmitCoffee():
 
   def emit(self):
     coffee = requests.get(self.config['endpoint']).json()
-    next_coffee_count = coffee['feeds'][-1]['field1']
-    if next_coffee_count != self.coffee_count:
-      self.coffee_count = next_coffee_count
+    next_coffee_count = int(float(coffee['feeds'][-1]['field1']))
+    if next_coffee_count > self.coffee_count:
       self.mqtt.publish(self.config['topic'], self.coffee_count)
+    self.coffee_count = next_coffee_count
 
 class EmitFood():
   def __init__(self, mqtt, config):
