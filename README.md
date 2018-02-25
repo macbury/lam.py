@@ -11,7 +11,7 @@ Led lamp that displays information about current jenkins build status. Main feat
 ## How it works:
 On separate server(in my case Raspberry Pi under my couch), there is running python script that periodically fetch information from jenkins and other endpoints. Any change is then published to separate MQTT topic. Each lamp subscribe to topics and animates acording to event:
 
-https://www.youtube.com/watch?v=UrOeL2-fV0c
+[See it in action on YouTube](https://www.youtube.com/watch?v=UrOeL2-fV0c)
 
 ## Failing builds
 ![](doc/failing.gif)
@@ -21,9 +21,6 @@ https://www.youtube.com/watch?v=UrOeL2-fV0c
 
 ## Success builds
 ![](doc/success.gif)
-
-## Wiring
-![](doc/sketch.png)
 
 ## Requirements
 
@@ -46,9 +43,12 @@ Additionaly add small hole for power coord.
 ### Apply frozen glass effect to glass jar
 I needed to apply 3 coatings before it look cool.
 ![](doc/step2.jpg)
+### Wire and solder device
+![](doc/sketch.png)
 ### Wrap the tube using led strip and connect elements
 Mount tube using tape, and put everything inside.
 ![](doc/step3.jpg)
+
 
 ### Upload code to Wemos D1 mini
 
