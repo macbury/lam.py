@@ -8,6 +8,9 @@ Led lamp that displays information about current jenkins build status. Main feat
 * Big red arcade button that can send random message to somebody on hipchat
 * Change color depending on jenkins build status
 
+## How it works:
+https://www.youtube.com/watch?v=UrOeL2-fV0c
+
 ## Failing builds
 ![](doc/failing.gif)
 
