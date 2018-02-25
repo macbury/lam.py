@@ -13,13 +13,13 @@ On separate server(in my case Raspberry Pi under my couch), there is running pyt
 
 [See it in action on YouTube](https://www.youtube.com/watch?v=UrOeL2-fV0c)
 
-## Failing builds
+### Failing builds
 ![](doc/failing.gif)
 
-## Running builds
+### Running builds
 ![](doc/running.gif)
 
-## Success builds
+### Success builds
 ![](doc/success.gif)
 
 ## Requirements
