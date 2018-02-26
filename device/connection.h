@@ -34,18 +34,17 @@ void setupOTA() {
 }
 
 void setupWifi() {
-  delay(1000);
   Serial.println("----------");
   Serial.println("Connecting to: ");
   Serial.println(WIFI_NAME);
   WiFi.mode(WIFI_STA);
+  WiFi.begin(WIFI_NAME, WIFI_PASSWORD);
 
   bool ledTick = false;
   while (WiFi.waitForConnectResult() != WL_CONNECTED){
     Serial.print(".");
-    WiFi.begin(WIFI_NAME, WIFI_PASSWORD);
-
     delay(100);
+    yield();
     ledTick = !ledTick;
     analogWrite(PIN_STATUS_LED, ledTick ? 1023 : 0);
   }
@@ -67,9 +66,9 @@ bool ensureMqttConnection() {
   ensureWifiConnection();
   bool ledTick = false;
   while (!client.connected()) {
+    yield();
     ledTick = !ledTick;
     analogWrite(PIN_STATUS_LED, ledTick ? 1023 : 0);
-    delay(500);
     Serial.println("Attempting MQTT connection...");
     // Create a random client ID
     String clientId = "lam.py-";
@@ -82,9 +81,8 @@ bool ensureMqttConnection() {
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
-      delay(5000);
+      Serial.println(" try again in 500 ms");
+      delay(500);
     }
   }
 
@@ -104,4 +102,13 @@ void onConnect() {
   client.subscribe(MQTT_TOPIC_COFFEE);
   Serial.println(MQTT_TOPIC_FOOD);
   client.subscribe(MQTT_TOPIC_FOOD);
+}
+
+int payloadToInt(byte* payload, unsigned int length) {
+  char message[length + 1];
+  for (int i = 0; i < length; i++) {
+    message[i] = (char)payload[i];
+  }
+  message[length] = '\0';
+  return String(message).toInt();
 }

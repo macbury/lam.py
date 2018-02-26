@@ -20,35 +20,26 @@ WiFiClient espClient;
 PubSubClient client(espClient);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(PIXEL_COUNT, PIN_LED_STRIP, NEO_GRB + NEO_KHZ800);
 
-
 #include "effects.h"
 #include "button.h"
 #include "connection.h"
 #include "state.h"
 
 void on_mqtt_message(char* topic, byte* payload, unsigned int length) {
-  char message[length + 1];
-  for (int i = 0; i < length; i++) {
-    message[i] = (char)payload[i];
-  }
-  message[length] = '\0';
-
   Serial.print("Topic: ");
   Serial.println(topic);
-  Serial.println("Message: ");
-  Serial.println(message);
   if (strcmp(topic, MQTT_TOPIC_FOOD) == 0) {
     foodAlertEffect();
   } else if (strcmp(topic, MQTT_TOPIC_COFFEE) == 0) {
-    coffeeEffect(String(message).toInt());
+    coffeeEffect(payloadToInt(payload, length));
   } else if (strcmp(topic, MQTT_TOPIC_PRESENCE) == 0) {
     Serial.println("Topic presence");
-    turnOnOff(message);
+    turnOnOff(payload, length);
   } else if (strcmp(topic, MQTT_TOPIC_BRIGHTNESS) == 0) {
     Serial.println("Changing brightness");
-    setBrightness(String(message).toInt());
+    setBrightness(payloadToInt(payload, length));
   } else if (strcmp(topic, MQTT_TOPIC_BUILD) == 0) {
-    switchToState(message);
+    switchToState(payload, length);
   } else {
     Serial.println("Unhandled!");
   }
@@ -69,7 +60,6 @@ void setup() {
   strip.begin();
   delay(100);
   currentEffect = new ClearEffect();
-  clearColor();
 }
 
 void loop() {

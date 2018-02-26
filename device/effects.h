@@ -22,6 +22,7 @@ void runEffect(Effect * toRunEffect, Effect * fromEffect, int duration) {
 
     strip.show();
     duration -= TICK_DELAY;
+    yield();
     delay(TICK_DELAY);
   }
 

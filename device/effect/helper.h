@@ -54,6 +54,7 @@ void transitToEffect(Effect * fromEffect, Effect * toEffect, float transitionTim
     }
 
     strip.show();
+    yield();
     delay(TICK_DELAY);
   }
 }

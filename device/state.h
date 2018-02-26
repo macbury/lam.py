@@ -25,7 +25,13 @@ char * STATE_SUCCESS = "success";
 char * STATE_RUNNING = "running";
 char * STATE_FAILED = "failed";
 
-void switchToState(char * nextState) {
+void switchToState(byte* payload, unsigned int length) {
+  char nextState[length + 1];
+  for (int i = 0; i < length; i++) {
+    nextState[i] = (char)payload[i];
+  }
+  nextState[length] = '\0';
+
   if (strcmp(currentState, nextState) == 0) {
     Serial.print("Still the same state: ");
     Serial.print(currentState);
@@ -63,7 +69,13 @@ void switchToState(char * nextState) {
 }
 
 const char * ONLINE_KEY = "online";
-void turnOnOff(char * action) {
+void turnOnOff(byte* payload, unsigned int length) {
+  char action[length + 1];
+  for (int i = 0; i < length; i++) {
+    action[i] = (char)payload[i];
+  }
+  action[length] = '\0';
+  
   if (strcmp(action, ONLINE_KEY) == 0) {
     teamOnline = true;
     Serial.println("Turn on lamp");

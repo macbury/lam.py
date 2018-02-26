@@ -20,7 +20,7 @@ class EmitCoffee():
 
   def emit(self):
     coffee = requests.get(self.config['endpoint']).json()
-    next_coffee_count = int(float(coffee['feeds'][-1]['field1']))
+    next_coffee_count = int(float(coffee['feeds'][-1]['field1'] or '0'))
     if next_coffee_count > self.coffee_count:
       self.mqtt.publish(self.config['topic'], next_coffee_count)
     self.coffee_count = next_coffee_count
