@@ -3,6 +3,7 @@ import jenkins
 class JenkinsClient():
   def __init__(self, config):
     self.jobs = config['jobs']
+    self.excluded_jobs = config['excluded_jobs']
     self.client = jenkins.Jenkins(
       url=config['url'],
       username=config['user'],
@@ -10,6 +11,9 @@ class JenkinsClient():
     )
 
   def is_observed(self, other_job_name):
+    for job_name in self.excluded_jobs:
+      if other_job_name == job_name:
+        return False
     for job_name in self.jobs:
       if other_job_name.startswith(job_name):
         return True
