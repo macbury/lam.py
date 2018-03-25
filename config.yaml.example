@@ -5,6 +5,8 @@ jenkins:
   user: ""
   jobs:
     - proj
+  excluded_jobs:
+    - exact_job_name
 
 coffee:
   endpoint: 'https://api.thingspeak.com/channels/125608/fields/1.json?sum=daily&timezone=Europe/Warsaw&days=1'
